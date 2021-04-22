@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ftp="http://www.mulesoft.org/schema/mule/ftp" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns:sftp="http://www.mulesoft.org/schema/mule/sftp"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/sftp http://www.mulesoft.org/schema/mule/sftp/current/mule-sftp.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ftp http://www.mulesoft.org/schema/mule/ftp/current/mule-ftp.xsd">
+	<sftp:config name="SFTP_Config" doc:name="SFTP Config" doc:id="046e6fb9-41f0-4ae0-a86c-6b6e687672a1" >
+		<sftp:connection host="10.0.0.41" username="tester" password="password" prngAlgorithm="NativePRNG" />
+	</sftp:config>
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="0080951a-85b5-48d1-b1ea-66c4f483b330" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<ftp:config name="FTP_Config" doc:name="FTP Config" doc:id="819db88a-3a77-4e35-9eda-6a1fce0841e1" >
+		<ftp:connection workingDir="SSL" host="localhost" port="14147" username="root" password="password" />
+	</ftp:config>
+	<flow name="sftpFlow" doc:id="43f6dcd4-2b4d-432c-8540-1ba52b0edbe9" >
+		<http:listener doc:name="Listener" doc:id="d241fd0b-579c-4dca-aebe-54c1af1094ef" config-ref="HTTP_Listener_config" path="/test"/>
+		<sftp:write doc:name="Write" doc:id="3abae3b1-e3bf-4b8f-a022-0db2e81f870c" config-ref="SFTP_Config" path="/testst.txt"/>
+	</flow>
+	<flow name="sftpFlow1" doc:id="01ce8b3b-76ab-4370-ac51-11d79a809cfc" >
+		<http:listener doc:name="Listener" doc:id="7046792e-7c53-4170-9e86-7778e44538d1" config-ref="HTTP_Listener_config" path="/test"/>
+		<ftp:write doc:name="Write" doc:id="4aa1cea0-b3ff-4cc6-ab94-929e55b3fdcb" config-ref="FTP_Config" path="C:\Users\samen\Desktop\PER-WORK\error.json"/>
+	</flow>
+</mule>
